@@ -9,35 +9,41 @@ new PerformanceObserver((items) => {
     })
 }).observe({ entryTypes: ["function"] })
 
-// Loop over n amount and run lib script "stream" to calculate an array with 1000 random floats
-async function lib(cycles = 30000) {
-    const res = [];
-    for (let n = 0; n < cycles; n++) {
-        res.push({
-            c: Date.now(),
-            y: stream(10)
-        })
-    }
-};
+// async function lib(cycles = 30000) {
+//     const res = [];
+//     for (let n = 0; n < cycles; n++) {
+//         res.push({
+//             c: Date.now(),
+//             y: stream(10)
+//         })
+//     }
+//     console.log(res)
+// };
+
+// Loop over items (15) float values and repeat with a time difference 1000/16ms for a length of ticks.
+async function lib(items = 15 , ticks = 15) {
+    stream(items, ticks)
+    // console.log(stream(items, ticks))
+}
 
 // Loop over n amount and generate 1000 random floats;
-async function native(cycles = 30000) {
+async function native(items = 15, ticks = 15) {
     const resJs = [];
-    for (let n = 0; n < cycles; n++) {
-        const randomList = Array.from({ length: 1000 }).map((_, index) => Math.random() * index);
+    for (let n = 0; n < ticks; n++) {
+        const randomList = Array.from({ length: items }).map((_, index) => Math.random() * index);
         resJs.push({
-            x: Date.now(),
+            x: new Date(Date.now()).toISOString(),
             y: randomList
         })
     }
+    console.log(resJs)
 };
 
-const runLib = performance.timerify(lib);
+const runLib = performance.timerify(lib)
 const runNative = performance.timerify(native);
-
 console.log('Starting call of functions!');
-runNative(30000);
-runLib(30000);
+runNative(1000, 2000);
+// runLib(1000, 2000)
 
 
 

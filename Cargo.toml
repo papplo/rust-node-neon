@@ -14,6 +14,7 @@ crate-type = ["cdylib"]
 [dependencies]
 num_cpus = "1.14.0"
 rand = "0.8.4"
+chrono = "0.4.23"
 
 [dependencies.neon]
 version = "0.10"
