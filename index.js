@@ -10,8 +10,7 @@ new PerformanceObserver((items) => {
 }).observe({ entryTypes: ["function"] })
 
 // Loop over n amount and run lib script "stream" to calculate an array with 1000 random floats
-performance.timerify(runLib)();
-function runLib(cycles = 30000) {
+async function lib(cycles = 30000) {
     const res = [];
     for (let n = 0; n < cycles; n++) {
         res.push({
@@ -21,10 +20,8 @@ function runLib(cycles = 30000) {
     }
 };
 
-
 // Loop over n amount and generate 1000 random floats;
-performance.timerify(runNative)();
-function runNative(cycles = 30000) {
+async function native(cycles = 30000) {
     const resJs = [];
     for (let n = 0; n < cycles; n++) {
         const randomList = Array.from({ length: 1000 }).map((_, index) => Math.random() * index);
@@ -35,9 +32,12 @@ function runNative(cycles = 30000) {
     }
 };
 
+const runLib = performance.timerify(lib);
+const runNative = performance.timerify(native);
+
 console.log('Starting call of functions!');
-runLib(300);
-runNative(300);
+runNative(30000);
+runLib(30000);
 
 
 
